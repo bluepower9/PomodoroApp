@@ -1,14 +1,16 @@
 import {useEffect, useState} from 'react';
 
-function StartButton({ onButtonClick }) {
+function StartButton({onButtonClick, isRunning}) {
     return (
-        <button onClick={onButtonClick}>Start</button>
+        <button class="bg-gray-700 w-24 px-2 pb-1 text-2xl text-gray-300 rounded-xl shadow-md shadow-black hover:bg-gray-800 hover:shadow-lg hover:shadow-black" onClick={onButtonClick}>{isRunning?"Pause": "Start"}</button>
     )
 }
 
-export default function Timer() {
-    const [timeLeft, setTimeLeft] = useState(5);
+export default function Timer(props) {
+    const [timeLeft, setTimeLeft] = useState(props.time?props.time:60);
     const [isRunning, setIsRunning] = useState(false);
+
+    // let hours, 
 
     useEffect(() => {
         let timer;
@@ -22,21 +24,22 @@ export default function Timer() {
         return (() => clearInterval(timer));
     }, [isRunning, timeLeft]);
 
-    function counter() {
-        setTimeLeft(prevTime => prevTime - 1);
-    }
+    const hrs = String(Math.floor(timeLeft/3600)).padStart(2, "0");
+    const mins = String(Math.floor((timeLeft%3600)/60)).padStart(2, "0");
+    const secs = String(timeLeft%60).padStart(2, "0");
 
-    function onButtonClick() {
-        setTimeLeft(5);
-        setIsRunning(true);
-    }
+    const counter = () => setTimeLeft(prevTime => prevTime - 1);
+    const startStopTimer = () => setIsRunning(!isRunning);
 
     return (
-        <div class="flex flex-col justify-center items-center">
-            <div class="flex justify-center bg-black w-40 rounded-2xl">
-                <h1 class="text-white text-8xl">{timeLeft}</h1>
+        <div class="flex-col justify-items-center m-3">
+            <div class="flex bg-black pb-2 px-3 mb-4 rounded-2xl shadow-lg shadow-black text-white text-8xl">
+                <div>{hrs}:</div>
+                <div>{mins}:</div>
+                <div>{secs}</div>
             </div>
-            <StartButton onButtonClick={onButtonClick}/>
+            <StartButton onButtonClick={startStopTimer} isRunning={isRunning}/>
+            
         </div>
     );
 }
