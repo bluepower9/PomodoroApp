@@ -17,17 +17,12 @@ function TimeComponent({val}){
 
 
 function TimerOutput({time}){
-    const hrs = String(Math.floor(time/3600)).padStart(2, "0");
+    //const hrs = String(Math.floor(time/3600)).padStart(2, "0");
     const mins = String(Math.floor((time%3600)/60)).padStart(2, "0");
     const secs = String(time%60).padStart(2, "0");
 
     return (
         <div class="flex bg-black py-3 px-4 mb-4 rounded-2xl shadow-lg shadow-black text-white text-8xl space-x-2">
-            <div class="flex-col">
-                <TimeComponent val={hrs}/>
-                <h1 class="flex justify-center text-gray-400 text-lg mt-1 font-bold">hour</h1>
-            </div>
-            <p>:</p>
             <div class="flex-col">
                 <TimeComponent val={mins}/>
                 <h1 class="flex justify-center text-gray-400 text-lg mt-1 font-bold">min</h1>
@@ -42,9 +37,10 @@ function TimerOutput({time}){
 }
 
 
-export default function Timer(props) {
-    const [timeLeft, setTimeLeft] = useState(props.time?props.time:60);
+export default function Timer({timeLength}) {
+    const [timeElapsed, setTimeElapsed] = useState(0);
     const [isRunning, setIsRunning] = useState(false);
+    const timeLeft = timeLength - timeElapsed;
 
     useEffect(() => {
         let timer;
@@ -54,15 +50,14 @@ export default function Timer(props) {
         else if (timeLeft <= 0) {
             setIsRunning(false);
         }
-        console.log(timer);
-        return (() => clearInterval(timer));
-    }, [isRunning, timeLeft]);
+        return (() => clearTimeout(timer));
+    }, [isRunning, timeElapsed]);
 
     const hrs = String(Math.floor(timeLeft/3600)).padStart(2, "0");
     const mins = String(Math.floor((timeLeft%3600)/60)).padStart(2, "0");
     const secs = String(timeLeft%60).padStart(2, "0");
 
-    const counter = () => setTimeLeft(prevTime => prevTime - 1);
+    const counter = () => setTimeElapsed(prevTime => prevTime + 1);
     const startStopTimer = () => setIsRunning(!isRunning);
 
     return (
