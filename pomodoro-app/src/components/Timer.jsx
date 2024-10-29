@@ -6,11 +6,45 @@ function StartButton({onButtonClick, isRunning}) {
     )
 }
 
+
+function TimeComponent({val}){
+    return (
+        <div>
+            <div class="flex justify-center bg-gray-800 rounded-lg px-2 pb-2">{val}</div>
+        </div>
+    )
+}
+
+
+function TimerOutput({time}){
+    const hrs = String(Math.floor(time/3600)).padStart(2, "0");
+    const mins = String(Math.floor((time%3600)/60)).padStart(2, "0");
+    const secs = String(time%60).padStart(2, "0");
+
+    return (
+        <div class="flex bg-black py-3 px-4 mb-4 rounded-2xl shadow-lg shadow-black text-white text-8xl space-x-2">
+            <div class="flex-col">
+                <TimeComponent val={hrs}/>
+                <h1 class="flex justify-center text-gray-400 text-lg mt-1 font-bold">hour</h1>
+            </div>
+            <p>:</p>
+            <div class="flex-col">
+                <TimeComponent val={mins}/>
+                <h1 class="flex justify-center text-gray-400 text-lg mt-1 font-bold">min</h1>
+            </div>
+            <p>:</p>
+            <div class="flex-col">
+                <TimeComponent val={secs}/>
+                <h1 class="flex text-gray-400 justify-center text-lg mt-1 font-bold">sec</h1>
+            </div>
+        </div>
+    );
+}
+
+
 export default function Timer(props) {
     const [timeLeft, setTimeLeft] = useState(props.time?props.time:60);
     const [isRunning, setIsRunning] = useState(false);
-
-    // let hours, 
 
     useEffect(() => {
         let timer;
@@ -33,13 +67,8 @@ export default function Timer(props) {
 
     return (
         <div class="flex-col justify-items-center m-3">
-            <div class="flex bg-black pb-2 px-3 mb-4 rounded-2xl shadow-lg shadow-black text-white text-8xl">
-                <div>{hrs}:</div>
-                <div>{mins}:</div>
-                <div>{secs}</div>
-            </div>
+            <TimerOutput time={timeLeft}/>
             <StartButton onButtonClick={startStopTimer} isRunning={isRunning}/>
-            
         </div>
     );
 }
