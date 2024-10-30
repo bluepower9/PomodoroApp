@@ -4,7 +4,7 @@ import TimeSetting from "./TimeSetting";
 export default function Settings( {timeValues, setTimeValues} ) {
 
     return (
-        <div class="flex bg-gray-400 p-3 w-1/4 justify-between">
+        <div class="flex bg-gray-400 p-3 w-[25vw] justify-between rounded-xl">
             <TimeSetting
                 label="Work Time"
                 defaultTime={timeValues[0]}

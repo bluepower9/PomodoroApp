@@ -5,7 +5,11 @@ export default {
     "./src/**/*.{js,jsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily:{
+        'heading': ['Julius Sans One', 'sans-serif']
+      }
+    },
   },
   plugins: [],
 }

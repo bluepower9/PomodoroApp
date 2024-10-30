@@ -37,7 +37,7 @@ function TimerOutput({time}){
 }
 
 
-export default function Timer({timeLength}) {
+export default function Timer({timeLength, updatePhase}) {
     const [timeElapsed, setTimeElapsed] = useState(0);
     const [isRunning, setIsRunning] = useState(false);
     const timeLeft = timeLength - timeElapsed;
@@ -49,6 +49,8 @@ export default function Timer({timeLength}) {
         }
         else if (timeLeft <= 0) {
             setIsRunning(false);
+            updatePhase();
+            setTimeElapsed(0);
         }
         return (() => clearTimeout(timer));
     }, [isRunning, timeElapsed]);
@@ -61,7 +63,7 @@ export default function Timer({timeLength}) {
     const startStopTimer = () => setIsRunning(!isRunning);
 
     return (
-        <div class="flex-col justify-items-center m-3">
+        <div class="flex-col justify-items-center m-5">
             <TimerOutput time={timeLeft}/>
             <StartButton onButtonClick={startStopTimer} isRunning={isRunning}/>
         </div>
