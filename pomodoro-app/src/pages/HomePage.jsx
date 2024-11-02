@@ -3,6 +3,7 @@ import Timer from "../components/Timer";
 import Settings from "../components/settings/Settings";
 import usePhase from '../hooks/timerHooks'
 import NavBar from "../components/NavBar/NavBar";
+import Notes from "../components/Notes/Notes";
 
 
 export default function HomePage() {
@@ -25,13 +26,26 @@ export default function HomePage() {
 
 
     return (
-        <div class="flex flex-col bg-gray-500 w-screen h-screen justify-center items-center">
+        <div class="flex flex-col bg-gray-500 w-screen h-screen items-center justify-center">
             <NavBar />
-            <h1 class="text-5xl mb-5 text-gray-200 font-sans">{usePhase(phase)}</h1>
-            <h1 class="text-3xl text-gray-900 font-medium font-sans">#{phaseCount+1}</h1>
-            <Timer timeLength={currentTimeLength} updatePhase={()=>setPhaseCount(phaseCount+1)}/>
-            <div class="mt-5">
-                <Settings timeValues={timeValues} setTimeValues={setTimeValues}/>
+            <div class="flex w-full justify-center">
+                <div class="flex w-full ml-5">
+                    <Notes />
+                </div>
+                <div class="flex flex-col justify-center items-center mx-20">
+                    <h1 class="text-5xl mb-5 text-gray-200 font-sans">{usePhase(phase)}</h1>
+                    <h1 class="text-3xl text-gray-900 font-medium font-sans">#{phaseCount+1}</h1>
+                    <Timer timeLength={currentTimeLength} updatePhase={()=>setPhaseCount(phaseCount+1)}/>
+                    <div class="mt-5">
+                        <Settings timeValues={timeValues} setTimeValues={setTimeValues}/>
+                    </div>
+                </div>
+                <div class="flex w-full mr-5 justify-end h-fit">
+                    <div class="flex text-white bg-gray-800 text-4xl px-2 pb-2 rounded-xl">
+                        Filler
+                    </div>
+                    
+                </div>
             </div>
         </div>
     );
