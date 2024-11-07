@@ -29,7 +29,7 @@ export default function HomePage() {
         <div class="flex flex-col bg-gray-500 w-screen h-screen items-center justify-center">
             <NavBar />
             <div class="flex w-full justify-center">
-                <div class="flex w-full ml-5">
+                <div class="flex w-full ml-5 ">
                     <Notes />
                 </div>
                 <div class="flex flex-col justify-center items-center mx-20">

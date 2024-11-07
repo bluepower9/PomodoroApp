@@ -16,7 +16,7 @@ export default function Notes(props){
     }
 
     return (
-        <div class="flex flex-col h-full w-full">
+        <div class="flex flex-col h-fit w-full overflow-y-auto">
             <div class={`flex bg-gray-800 h-fit text-3xl px-3 pb-2 text-white hover:cursor-pointer ${expanded?"w-full rounded-t-xl": "w-fit rounded-xl"}`} onClick={()=>setexpanded(!expanded)}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="flex bi bi-pencil-square w-6 pt-2" viewBox="0 0 16 16">
                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
@@ -27,7 +27,9 @@ export default function Notes(props){
                     {expIcon()}
                 </svg>
             </div>
-            <NotesDisplay show={expanded}/>
+            <div class="h-96">
+                <NotesDisplay show={expanded}/>
+            </div>
         </div>
     );
 }
