@@ -29,15 +29,13 @@ export default function HomePage() {
     const updatePhaseCount = () => setPhaseCount(currentPhaseCount => (currentPhaseCount + 1) % phaseOrder.length);
 
     return (
-        <div class="flex flex-col bg-black w-screen h-screen items-center justify-center font-sans">
+        <div class="flex flex-col bg-black font-sans h-screen">
             <NavBar />
             <div class="flex w-full justify-center">
                 <div class="flex w-full ml-5 ">
                     <Notes />
                 </div>
                 <div class="flex flex-col justify-center items-center mx-20">
-                    <h1 class="text-5xl mb-5 text-gray-200 font-sans">{phases[phaseIndex].name}</h1>
-                    <h1 class="text-3xl text-gray-200 font-medium font-sans">#{phaseCount+1}</h1>
                     <Timer
                         phases={phases}
                         phaseOrder={phaseOrder}
@@ -49,7 +47,7 @@ export default function HomePage() {
                     </div>
                 </div>
                 <div class="flex w-full mr-5 justify-end h-fit">
-                    <div class="flex text-white bg-gray-800 text-4xl px-2 pb-2 rounded-xl">
+                    <div class="flex text-white bg-zinc-800 text-4xl px-2 pb-2 rounded-xl">
                         Filler
                     </div>
                     
