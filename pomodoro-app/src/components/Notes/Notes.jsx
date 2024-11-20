@@ -4,7 +4,7 @@ import NotesDisplay from "./NotesDisplay";
 
 
 export default function Notes(props){
-    const [expanded, setexpanded] = useState(false);
+    const [expanded, setexpanded] = useState(true);
 
     const expIcon = () => {
         return (expanded?
