@@ -29,7 +29,7 @@ export default function HomePage() {
     const updatePhaseCount = () => setPhaseCount(currentPhaseCount => (currentPhaseCount + 1) % phaseOrder.length);
 
     return (
-        <div class="flex flex-col bg-black font-sans h-screen">
+        <div class="flex flex-col bg-black font-sans justify-center h-screen">
             <NavBar />
             <div class="flex w-full justify-center">
                 <div class="flex w-full ml-5 ">
