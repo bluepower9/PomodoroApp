@@ -32,7 +32,7 @@ function generateNotes(expandNote) {
         return;
     }
 
-    for(let i=0; i<allNotes.length; i++){
+    for(let i=allNotes.length-1; i>=0; i--){
         let n = allNotes[i];
         let date = new Date(n['date']);
 
@@ -63,7 +63,7 @@ function NewNote(props){
             allNotes = [];
         }
         
-        const id = allNotes!==null?allNotes.at(-1)['id']+1:1;
+        const id = (allNotes!==null || allNotes.length!==0)?allNotes.at(-1)['id']+1:1;
         const title = document.getElementById("newNoteTitle").value.trim();
         const note = document.getElementById("newNoteBody").value.trim();
         
@@ -130,7 +130,7 @@ function getExpandedNote(id){
 
 
 export default function NotesDisplay(props){
-    const [expandNote, setExpandNote] = useState(0);
+    const [expandNote, setExpandNote] = useState(null); // null=list all notes, 0=new note, everything else=view note with id
 
 
     const getView = () => {
