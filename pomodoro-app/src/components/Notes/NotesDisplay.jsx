@@ -89,12 +89,12 @@ function NewNote(props){
         <div class="flex flex-col w-full h-full p-2">
             <div class="flex flex-1 w-full h-8 ml-1">
                 <label class="font-medium">Title:</label>
-                <textarea id="newNoteTitle" maxlength="50" placeholder="add title" class="flex bg-gray-400 resize-none w-full mb-1 ml-2 outline-0 placeholder-gray-800"></textarea>
+                <textarea id="newNoteTitle" maxlength="50" placeholder="add title" class="flex bg-zinc-400 resize-none w-full mb-1 ml-2 outline-0 placeholder-zinc-800"></textarea>
             </div>
             <hr class="border-[1.5px] rounded-full"></hr>
-            <textarea id="newNoteBody" placeholder="add new note" class="h-full w-full mt-2 bg-gray-400 outline-0 resize-none rounded-b-xl placeholder-gray-800"></textarea>
+            <textarea id="newNoteBody" placeholder="add new note" class="h-full w-full mt-2 bg-zinc-400 outline-0 resize-none rounded-b-xl placeholder-zinc-800"></textarea>
             <button onClick={() => saveNote()}>
-            <svg class="absolute right-0 bottom-0 mb-4 mr-5 bi bi-floppy-fill w-8 text-gray-800 fill-current hover:text-gray-700" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 16 16">
+            <svg class="absolute right-0 bottom-0 mb-4 mr-5 bi bi-floppy-fill w-8 text-zinc-800 fill-current hover:text-zinc-700" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 16 16">
                 <path d="M0 1.5A1.5 1.5 0 0 1 1.5 0H3v5.5A1.5 1.5 0 0 0 4.5 7h7A1.5 1.5 0 0 0 13 5.5V0h.086a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5H14v-5.5A1.5 1.5 0 0 0 12.5 9h-9A1.5 1.5 0 0 0 2 10.5V16h-.5A1.5 1.5 0 0 1 0 14.5z"/>
                 <path d="M3 16h10v-5.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5zm9-16H4v5.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5zM9 1h2v4H9z"/>
             </svg>

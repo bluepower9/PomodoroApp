@@ -14,10 +14,11 @@ function TimerRings({phases, phaseOrder, phaseCount, timeLeft, timeString}) {
 
     const colorInner = phases[phaseIndex].color;
 
-    const radiusOuter = 200;
-    const radiusInner = 175;
-    const strokeWidth = 20;
-    const totalWidth = (radiusOuter + strokeWidth) * 2;
+    const radiusOuter = 180;
+    const radiusInner = 160;
+    const strokeWidth = 15;
+    const totalWidth = radiusOuter * 2 + strokeWidth;
+    const center = totalWidth / 2;
     const circumferenceOuter = 2 * Math.PI * radiusOuter;
     const circumferenceInner = 2 * Math.PI * radiusInner;
     const arcLengthInner = circumferenceInner * timeLeft / duration;
@@ -32,16 +33,16 @@ function TimerRings({phases, phaseOrder, phaseCount, timeLeft, timeString}) {
                 stroke='white'
                 strokeWidth={strokeWidth}
                 r={radiusOuter}
-                cx={totalWidth / 2}
-                cy={totalWidth / 2}
+                cx={center}
+                cy={center}
             />
             <circle
                 fill='transparent'
                 stroke='white'
                 strokeWidth={strokeWidth}
                 r={radiusInner}
-                cx={totalWidth / 2}
-                cy={totalWidth / 2}
+                cx={center}
+                cy={center}
             />
             {phaseOrder.map((phaseIndex, i) => {
                 if (i < phaseCount) return;
@@ -65,10 +66,10 @@ function TimerRings({phases, phaseOrder, phaseCount, timeLeft, timeString}) {
                         strokeDashoffset={-(circumferenceOuter - arcLength) + startingRotations[i]}
                         strokeLinecap='round'
                         r={radiusOuter}
-                        cx={totalWidth / 2}
-                        cy={totalWidth / 2}
+                        cx={center}
+                        cy={center}
                         style={{transition: 'stroke-dasharray 0.99s linear'}}
-                        transform={`rotate(-90 ${totalWidth / 2} ${totalWidth / 2})`}
+                        transform={`rotate(-90 ${center} ${center})`}
                     />
                 );
             })}
@@ -79,17 +80,28 @@ function TimerRings({phases, phaseOrder, phaseCount, timeLeft, timeString}) {
                 strokeDasharray={`${arcLengthInner} ${circumferenceInner}`}
                 strokeLinecap="round"
                 r={radiusInner}
-                cx={totalWidth / 2}
-                cy={totalWidth / 2}
+                cx={center}
+                cy={center}
                 style={{ transition: 'stroke-dasharray 0.99s linear, stroke 0.99s linear' }}
-                transform={`rotate(-90 ${totalWidth / 2} ${totalWidth / 2})`}
+                transform={`rotate(-90 ${center} ${center})`}
             />
             <text
-                x={totalWidth / 2}
-                y={totalWidth / 2}
+                x={center}
+                y={center - 42 - 24}
+                dominantBaseline='middle'
+                textAnchor='middle'
+                fill='white'
+                fontSize='24px'
+            >
+                {`#${phaseCount + 1} - ${phases[phaseIndex].name}`}
+            </text>
+            <text
+                class='font-extralight'
+                x={center}
+                y={center + 6}
                 textAnchor='middle'
                 dominantBaseline='middle'
-                fontSize='96px'
+                fontSize='84px'
                 fill='white'
             >
                 {timeString}
@@ -99,8 +111,8 @@ function TimerRings({phases, phaseOrder, phaseCount, timeLeft, timeString}) {
 }
 
 function StartButton({onButtonClick, isRunning}) {
-    const startStyles = 'bg-lime-200 text-lime-600 hover:bg-lime-600 hover:text-lime-200';
-    const pauseStyles = 'bg-yellow-200 text-yellow-600 hover:bg-yellow-600 hover:text-yellow-200'
+    const startStyles = 'bg-green-200 text-green-600 hover:bg-green-300 hover:text-green-700';
+    const pauseStyles = 'bg-amber-200 text-amber-600 hover:bg-amber-300 hover:text-amber-700'
     return (
         <button class={`${isRunning ? pauseStyles : startStyles} w-24 h-24 text-2xl rounded-full`} onClick={onButtonClick}>{isRunning?"Pause": "Start"}</button>
     )
