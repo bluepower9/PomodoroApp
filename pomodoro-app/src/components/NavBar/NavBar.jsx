@@ -22,7 +22,7 @@ export default function NavBar(props){
                     </div>
                 </div>
             </div>
-            <div class="h-16 mb-4"></div>
+            <div class="min-h-16 mb-4"></div>
         </>
     );
 };

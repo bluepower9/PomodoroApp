@@ -1,37 +1,25 @@
 import { useState } from "react";
 import TimeSetting from "./TimeSetting";
 
-export default function Settings( {timeValues, setTimeValues} ) {
-
+export default function Settings( {phases, setPhases} ) {
+    const handleTimeChange = (e, index) => {
+        let nextPhases = phases.map((phase) => ({...phase}));
+        nextPhases[index].duration=Number(e.target.value);
+        setPhases(nextPhases);
+    }
     return (
-        <div class="flex bg-gray-400 p-3 w-[25vw] justify-between rounded-xl">
-            <TimeSetting
-                label="Work Time"
-                defaultTime={timeValues[0]}
-                onTimeChange={(e) => {
-                    let nextTimeValues = timeValues.slice();
-                    nextTimeValues[0] = e.target.value;
-                    setTimeValues(nextTimeValues);
-                }}
-            />
-            <TimeSetting
-                label="Short Break"
-                defaultTime={timeValues[1]}
-                onTimeChange={(e) => {
-                    let nextTimeValues = timeValues.slice();
-                    nextTimeValues[1] = e.target.value;
-                    setTimeValues(nextTimeValues);
-                }}
-            />
-            <TimeSetting
-                label="Long Break"
-                defaultTime={timeValues[2]}
-                onTimeChange={(e) => {
-                    let nextTimeValues = timeValues.slice();
-                    nextTimeValues[2] = e.target.value;
-                    setTimeValues(nextTimeValues);
-                }}
-            />
+        <div class="flex bg-zinc-900 p-3 w-[25vw] justify-between rounded-xl">
+            {
+                phases.map((phase, index) => {
+                    return (
+                        <TimeSetting
+                            label={phase.name}
+                            defaultTime={phase.duration}
+                            onTimeChange={(e) => {handleTimeChange(e, index)}}
+                        />
+                    );
+                })
+            }
         </div>
     );
 }

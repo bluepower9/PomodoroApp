@@ -1,18 +1,23 @@
 import {useEffect, useState} from 'react';
 
-function TimerRings({phases, phaseOrder, phaseCount, timeLeft, timeString}) {
-    const phaseIndex = phaseOrder[phaseCount];
-    const duration = phases[phaseIndex].duration;
+function TimerRings({phaseCycle, phaseCount, phaseIndex, timeLeft}) {
 
-    const startDurations = [];
-    const totalDuration = phaseOrder.reduce((acc, curr) => {
-        startDurations.push(acc);
-        return acc + phases[curr].duration;
+    const phase = phaseCycle[phaseIndex]
+    
+    const hrs = String(Math.floor(timeLeft/3600)).padStart(2, "0");
+    const mins = String(Math.floor((timeLeft%3600)/60)).padStart(2, "0");
+    const secs = String(timeLeft%60).padStart(2, "0");
+    const timeString = `${mins}:${secs}`;
+
+    const durationInSeconds = phaseCycle[phaseIndex].duration * 60;
+
+    const startTimes = [];
+    const totalDuration = phaseCycle.reduce((acc, curr) => {
+        startTimes.push(acc);
+        return acc + curr.duration;
     }, 0);
 
-    
-
-    const colorInner = phases[phaseIndex].color;
+    const colorInner = phaseCycle[phaseIndex].color;
 
     const radiusOuter = 180;
     const radiusInner = 160;
@@ -21,10 +26,8 @@ function TimerRings({phases, phaseOrder, phaseCount, timeLeft, timeString}) {
     const center = totalWidth / 2;
     const circumferenceOuter = 2 * Math.PI * radiusOuter;
     const circumferenceInner = 2 * Math.PI * radiusInner;
-    const arcLengthInner = circumferenceInner * timeLeft / duration;
-    const startingRotations = startDurations.map((duration) => circumferenceOuter * duration / totalDuration);
-    console.log(circumferenceOuter);
-    console.log(startingRotations);
+    const arcLengthInner = circumferenceInner * timeLeft / durationInSeconds;
+    const startRotations = startTimes.map((startTime) => circumferenceOuter * startTime / totalDuration);
 
     return (
         <svg height={totalWidth} width={totalWidth}>
@@ -44,26 +47,25 @@ function TimerRings({phases, phaseOrder, phaseCount, timeLeft, timeString}) {
                 cx={center}
                 cy={center}
             />
-            {phaseOrder.map((phaseIndex, i) => {
-                if (i < phaseCount) return;
-                const arcLength = phases[phaseIndex].duration / totalDuration * circumferenceOuter;
+            {phaseCycle.map((phase, i) => {
+                if (i < phaseIndex) return;
+                const arcLength = phase.duration / totalDuration * circumferenceOuter;
                 let currArcLength;
-                if (i === phaseCount) {
-                    currArcLength = arcLength * timeLeft / duration;
+                if (i === phaseIndex) {
+                    currArcLength = arcLength * timeLeft / durationInSeconds;
                 }
                 else {
                     currArcLength = arcLength;
                 }
 
-                const color = phases[phaseIndex].color;
-                console.log(arcLength);
+                const color = phase.color;
                 return (
                     <circle
                         fill='transparent'
                         stroke={color}
                         strokeWidth={strokeWidth}
                         strokeDasharray={`${currArcLength} ${circumferenceOuter}`}
-                        strokeDashoffset={-(circumferenceOuter - arcLength) + startingRotations[i]}
+                        strokeDashoffset={-(circumferenceOuter - arcLength) + startRotations[i]}
                         strokeLinecap='round'
                         r={radiusOuter}
                         cx={center}
@@ -93,7 +95,7 @@ function TimerRings({phases, phaseOrder, phaseCount, timeLeft, timeString}) {
                 fill='white'
                 fontSize='24px'
             >
-                {`#${phaseCount + 1} - ${phases[phaseIndex].name}`}
+                {`#${phaseCount + 1} - ${phase.name}`}
             </text>
             <text
                 class='font-extralight'
@@ -119,18 +121,21 @@ function StartButton({onButtonClick, isRunning}) {
 }
 
 
-export default function Timer({phases, phaseOrder, phaseCount, updatePhaseCount}) {
+export default function Timer({phaseCycle, phaseCount, phaseIndex, incrementPhase}) {
     const [timeElapsed, setTimeElapsed] = useState(0);
     const [isRunning, setIsRunning] = useState(false);
 
-    const phaseIndex = phaseOrder[phaseCount];
+    const durationInSeconds = phaseCycle[phaseIndex].duration * 60;
 
-    const duration = phases[phaseIndex].duration;
-
-    const timeLeft = duration - timeElapsed;
+    const timeLeft = durationInSeconds - timeElapsed;
 
     const counter = () => setTimeElapsed(prevTime => prevTime + 1);
-    const startStopTimer = () => setIsRunning(!isRunning);
+    const startStopTimer = () => setIsRunning((wasRunning) => !wasRunning);
+    const handlePhaseComplete = () => {
+        setIsRunning(false);
+        setTimeElapsed(0);
+        incrementPhase();
+    }
 
     useEffect(() => {
         let timer;
@@ -138,28 +143,18 @@ export default function Timer({phases, phaseOrder, phaseCount, updatePhaseCount}
             timer = setTimeout(counter, 1000);
         }
         else if (timeLeft <= 0) {
-            timer = setTimeout(() => {
-                setIsRunning(false);
-                updatePhaseCount();
-                setTimeElapsed(0);
-            }, 1000)
+            timer = setTimeout(handlePhaseComplete, 1000)
         }
         return (() => clearTimeout(timer));
     }, [isRunning, timeElapsed]);
 
-    const hrs = String(Math.floor(timeLeft/3600)).padStart(2, "0");
-    const mins = String(Math.floor((timeLeft%3600)/60)).padStart(2, "0");
-    const secs = String(timeLeft%60).padStart(2, "0");
-    const timeString = `${mins}:${secs}`;
-
     return (
         <div class="flex-col justify-items-center m-5">
             <TimerRings 
-                phases={phases}
-                phaseOrder={phaseOrder}
+                phaseCycle={phaseCycle}
                 phaseCount={phaseCount}
+                phaseIndex={phaseIndex}
                 timeLeft={timeLeft}
-                timeString={timeString}
             />
             <StartButton onButtonClick={startStopTimer} isRunning={isRunning} />
         </div>

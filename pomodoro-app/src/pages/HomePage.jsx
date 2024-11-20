@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Timer from "../components/Timer";
 import Settings from "../components/settings/Settings";
 import usePhase from '../hooks/timerHooks'
@@ -8,28 +8,37 @@ import Notes from "../components/Notes/Notes";
 
 export default function HomePage() {
     /* STATE */
-    // I use strings for these cause for some reason the input field value is a string
-    const [phaseDurations, setPhaseDurations] = useState(["25", "5", "15"]); // minutes for work, short, long
+    const [phases, setPhases] = useState([
+        {name: "Work", duration: 25, color: "#FF005E"},
+        {name: "Short Break", duration: 5, color: "#6FFF00"},
+        {name: "Long Break", duration: 15, color: "#00EEFF"}
+    ]);
     const [phaseCount, setPhaseCount] = useState(0); //0,2,4,6 work, 1,3,5 short, 7 long according to phaseOrder
-    const phaseNames = ["Work", "Short Break", "Long Break"];
+    const [numShortBreaks, setNumShortBreaks] = useState(3);
     
     /* CALCULATED FROM STATE */
-    const phaseDurationValues = phaseDurations.map(duration => Number(duration));
+    const phaseOrder = useMemo(() => {
+        const order = [];
+        for (let i = 0; i < numShortBreaks; i++) {
+            order.push(0, 1);
+        }
+        order.push(0, 2);
+        return order;
+    }, [numShortBreaks]);
 
-    const phases = [
-        {name: "Work", duration: phaseDurationValues[0] * 60, color: "#FF005E"},
-        {name: "Short Break", duration: phaseDurationValues[1] * 60, color: "#6FFF00"},
-        {name: "Long Break", duration: phaseDurationValues[2] * 60, color: "#00EEFF"}
-    ];
-    
-    const phaseOrder = [0, 1, 0, 1, 0, 1, 0, 2];
-    const phaseIndex = phaseOrder[phaseCount];
+    const phaseIndex = phaseCount % phaseOrder.length;
+
+    const phaseCycle = useMemo(() => {
+        return phaseOrder.map((index) => {
+            return {...phases[index]};
+        });
+    });
 
     /* FUNCTIONS */
-    const updatePhaseCount = () => setPhaseCount(currentPhaseCount => (currentPhaseCount + 1) % phaseOrder.length);
+    const incrementPhase = () => setPhaseCount(currentPhaseCount => (currentPhaseCount + 1));
 
     return (
-        <div class="flex flex-col bg-black font-sans justify-center h-screen">
+        <div class="flex flex-col bg-black font-sans min-h-screen">
             <NavBar />
             <div class="flex w-full justify-center">
                 <div class="flex w-full ml-5 ">
@@ -37,13 +46,13 @@ export default function HomePage() {
                 </div>
                 <div class="flex flex-col justify-center items-center mx-20">
                     <Timer
-                        phases={phases}
-                        phaseOrder={phaseOrder}
+                        phaseCycle={phaseCycle}
                         phaseCount={phaseCount}
-                        updatePhaseCount={updatePhaseCount}
+                        phaseIndex={phaseIndex}
+                        incrementPhase={incrementPhase}
                     />
                     <div class="mt-5">
-                        <Settings timeValues={phaseDurations} setTimeValues={setPhaseDurations}/>
+                        <Settings phases={phases} setPhases={setPhases}/>
                     </div>
                 </div>
                 <div class="flex w-full mr-5 justify-end h-fit">
