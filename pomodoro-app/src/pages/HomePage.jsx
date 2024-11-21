@@ -1,9 +1,10 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useRef} from "react";
 import Timer from "../components/Timer";
 import Settings from "../components/settings/Settings";
 import usePhase from '../hooks/timerHooks'
 import NavBar from "../components/NavBar/NavBar";
 import Notes from "../components/Notes/Notes";
+import ControlButtons from "../components/ControlButtons";
 
 
 export default function HomePage() {
@@ -15,6 +16,10 @@ export default function HomePage() {
     ]);
     const [phaseCount, setPhaseCount] = useState(0); //0,2,4,6 work, 1,3,5 short, 7 long according to phaseOrder
     const [numShortBreaks, setNumShortBreaks] = useState(3);
+
+    const [isRunning, setIsRunning] = useState(false);
+
+    const dialogRef = useRef(null);
     
     /* CALCULATED FROM STATE */
     const phaseOrder = useMemo(() => {
@@ -50,10 +55,11 @@ export default function HomePage() {
                         phaseCount={phaseCount}
                         phaseIndex={phaseIndex}
                         incrementPhase={incrementPhase}
+                        isRunning={isRunning}
+                        setIsRunning={setIsRunning}
                     />
-                    <div class="mt-5">
-                        <Settings phases={phases} setPhases={setPhases}/>
-                    </div>
+                    <ControlButtons isRunning={isRunning} setIsRunning={setIsRunning} dialogRef={dialogRef} />
+                    <Settings dialogRef={dialogRef} phases={phases} setPhases={setPhases} />
                 </div>
                 <div class="flex w-full mr-5 justify-end h-fit">
                     <div class="flex text-white bg-zinc-800 text-4xl px-2 pb-2 rounded-xl">
