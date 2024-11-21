@@ -1,4 +1,5 @@
 import {useEffect, useState} from 'react';
+import RoundButton from './ui/RoundButton';
 
 function TimerRings({phaseCycle, phaseCount, phaseIndex, timeLeft}) {
 
@@ -114,9 +115,29 @@ function TimerRings({phaseCycle, phaseCount, phaseIndex, timeLeft}) {
 
 function StartButton({onButtonClick, isRunning}) {
     const startStyles = 'bg-green-200 text-green-600 hover:bg-green-300 hover:text-green-700';
-    const pauseStyles = 'bg-amber-200 text-amber-600 hover:bg-amber-300 hover:text-amber-700'
+    const pauseStyles = 'bg-amber-200 text-amber-600 hover:bg-amber-300 hover:text-amber-700';
+
+    let text, styles;
+
+    if (isRunning) {
+        text = "Pause";
+        styles = pauseStyles;
+    }
+    else {
+        text = "Start";
+        styles = startStyles;
+    }
     return (
-        <button class={`${isRunning ? pauseStyles : startStyles} w-24 h-24 text-2xl rounded-full`} onClick={onButtonClick}>{isRunning?"Pause": "Start"}</button>
+        <RoundButton text={text} styles={styles} onButtonClick={onButtonClick} />
+    )
+}
+
+function SkipButton({onButtonClick}) {
+    const text = 'Skip';
+    const styles = 'bg-rose-200 text-rose-600 hover:bg-rose-300 hover:text-rose-700';
+
+    return (
+        <RoundButton text={text} styles={styles} onButtonClick={onButtonClick} />
     )
 }
 
@@ -130,7 +151,12 @@ export default function Timer({phaseCycle, phaseCount, phaseIndex, incrementPhas
     const timeLeft = durationInSeconds - timeElapsed;
 
     const counter = () => setTimeElapsed(prevTime => prevTime + 1);
-    const startStopTimer = () => setIsRunning((wasRunning) => !wasRunning);
+    const handleStartButtonClick = () => setIsRunning((wasRunning) => !wasRunning);
+    const handleSkipButtonClick = () => {
+        setIsRunning(false);
+        setTimeElapsed(0);
+        incrementPhase();
+    }
     const handlePhaseComplete = () => {
         setIsRunning(false);
         setTimeElapsed(0);
@@ -156,7 +182,10 @@ export default function Timer({phaseCycle, phaseCount, phaseIndex, incrementPhas
                 phaseIndex={phaseIndex}
                 timeLeft={timeLeft}
             />
-            <StartButton onButtonClick={startStopTimer} isRunning={isRunning} />
+            <div class="flex justify-between">
+                <StartButton onButtonClick={handleStartButtonClick} isRunning={isRunning} />
+                <SkipButton onButtonClick={handleSkipButtonClick} />
+            </div>
         </div>
     );
 }
