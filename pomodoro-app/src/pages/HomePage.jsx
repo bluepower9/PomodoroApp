@@ -40,7 +40,7 @@ export default function HomePage() {
     return (
         <div class="flex flex-col bg-black font-sans min-h-screen">
             <NavBar />
-            <div class="flex w-full justify-center">
+            <div class="flex w-full justify-center mt-16 pt-8">
                 <div class="flex w-full ml-5 ">
                     <Notes />
                 </div>
