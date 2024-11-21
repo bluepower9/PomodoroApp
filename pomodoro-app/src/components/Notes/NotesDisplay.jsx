@@ -2,10 +2,10 @@ import React, { useState } from "react";
 
 function MinimizedNote(props){
     return (
-        <div class="flex flex-col w-fill px-2 pt-2 hover:cursor-pointer hover:bg-gray-300" onClick={props.expand}>
+        <div class="flex flex-col w-full px-2 pt-2 hover:cursor-pointer hover:bg-gray-300" onClick={props.expand}>
             <div class="flex">
-                <label class="w-20 font-medium border-white border-r-[2px] pr-2 hover:cursor-pointer">{props.date}</label>
-                <p class="line-clamp-1 pl-2">{props.note}</p>
+                <label class="w-24 font-medium border-white border-r-[2px] pr-2 hover:cursor-pointer">{props.date}</label>
+                <p class="w-full line-clamp-1 pl-2">{props.note}</p>
             </div>
             <hr class="border-[1.5px] rounded-full mt-1" />
         </div>
@@ -22,23 +22,26 @@ function generateNotes(expandNote) {
 
     try{
         allNotes = JSON.parse(data);
+        if(allNotes === null){
+            allNotes = [];
+        }
     } catch{
         console.log('Error retrieving notes from local storage.');
         allNotes = [];
     }
 
     if(data === ''){
-        // return <div></div>;
         return;
     }
 
     for(let i=allNotes.length-1; i>=0; i--){
         let n = allNotes[i];
         let date = new Date(n['date']);
+        const id = n['id'];
 
         console.log(date);
 
-        notes.push(<MinimizedNote date={`${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`} expand={()=>expandNote(i)} note={n['note']}/>);
+        notes.push(<MinimizedNote date={`${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`} expand={()=>expandNote(id)} note={n['note']}/>);
         
     }
 
@@ -63,7 +66,7 @@ function NewNote(props){
             allNotes = [];
         }
         
-        const id = (allNotes!==null || allNotes.length!==0)?allNotes.at(-1)['id']+1:1;
+        const id = (allNotes!==null && allNotes.length!==0)?allNotes.at(-1)['id']+1:1;
         const title = document.getElementById("newNoteTitle").value.trim();
         const note = document.getElementById("newNoteBody").value.trim();
         
@@ -104,7 +107,7 @@ function NewNote(props){
 }
 
 
-function getExpandedNote(id){
+function getExpandedNote(id, backButtonClick){
     const data = localStorage.getItem('notes');
     const notes = JSON.parse(data);
 
@@ -119,10 +122,25 @@ function getExpandedNote(id){
 
     console.log('note: ', note);
     return (note!==null?
-        <div class="flex flex-col w-full h-full p-2">
-            <label class="text-xl font-bold mb-1 ml-1">{note['title']}</label>
-            <hr class="border-[1.5px] rounded-full"></hr>
-            <p class="m-1 overflow-y-auto">{note['note']}</p>
+        <div class="relative flex flex-col w-full h-full">
+            <div class="absolute flex top-0 w-full bg-zinc-400 bg-opacity-80">
+                <button class="mt-2 h-full ml-1 bg-gray-200 rounded-full hover:bg-gray-300" onClick={backButtonClick}>
+                    <svg class="w-7 bi bi-arrow-left-short" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5"/>
+                    </svg>
+                </button>
+                <div class="flex flex-col w-full max-h-full mt-2 mr-8">
+                    <label class="text-xl h-full font-bold align-middle ml-3">{note['title']}</label>
+                    <hr class="border-[1.5px] rounded-full ml-1"></hr>
+                </div>
+            </div>
+            <div class="w-full h-full px-9 overflow-y-auto">
+                <p class="w-full h-full">
+                    <br></br>
+                    <br></br>
+                    {note['note']}
+                </p>
+            </div>
         </div>:""
 
     );
@@ -162,20 +180,15 @@ export default function NotesDisplay(props){
             );
         } else{
             return (
-                <div class="relative px-6">
-                    <button class="absolute left-0 top-0 mt-[7px] ml-1 bg-gray-200 rounded-full hover:bg-gray-300" onClick={() => setExpandNote(null)}>
-                        <svg class="w-7 bi bi-arrow-left-short" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5"/>
-                        </svg>
-                    </button>
-                    {getExpandedNote(expandNote)}
+                <div class="relative overflow-y-auto">
+                    {getExpandedNote(expandNote, ()=>setExpandNote(null))}
                 </div>
             )
         }
     }
 
     return props.show?(
-        <div class="relative flex flex-col h-full w-full bg-gray-400 rounded-b-xl max-h-full">
+        <div class="relative flex flex-col h-full w-full bg-zinc-400 rounded-b-xl max-h-full">
             {getView()}
         </div>
     ): "";
