@@ -180,7 +180,7 @@ export default function NotesDisplay(props){
             );
         } else{
             return (
-                <div class="relative overflow-y-auto">
+                <div class="relative h-full w-full">
                     {getExpandedNote(expandNote, ()=>setExpandNote(null))}
                 </div>
             )

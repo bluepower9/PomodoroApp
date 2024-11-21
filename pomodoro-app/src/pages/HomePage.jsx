@@ -43,13 +43,13 @@ export default function HomePage() {
     const incrementPhase = () => setPhaseCount(currentPhaseCount => (currentPhaseCount + 1));
 
     return (
-        <div class="flex flex-col bg-black font-sans min-h-screen">
+        <div class="flex flex-col justify-center bg-black font-sans min-h-screen">
             <NavBar />
             <div class="flex w-full justify-center mt-16 pt-8">
                 <div class="flex w-full ml-5 ">
                     <Notes />
                 </div>
-                <div class="flex flex-col justify-center items-center mx-20">
+                <div class="flex flex-col justify-center items-center mx-24">
                     <Timer
                         phaseCycle={phaseCycle}
                         phaseCount={phaseCount}

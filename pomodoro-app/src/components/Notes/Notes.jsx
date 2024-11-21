@@ -27,7 +27,7 @@ export default function Notes(props){
                     {expIcon()}
                 </svg>
             </div>
-            <div class="h-96">
+            <div class="h-[50vh]">
                 <NotesDisplay show={expanded}/>
             </div>
         </div>
