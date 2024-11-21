@@ -13,9 +13,9 @@ export default function Settings( {dialogRef, phases, setPhases} ) {
     }
 
     return (
-        <dialog ref={dialogRef} class="bg-neutral-900 w-1/3 min-w-96 rounded-xl p-4">
+        <dialog ref={dialogRef} class="bg-neutral-900 w-1/3 min-w-96 rounded-xl px-8 py-4">
             <div class="relative flex justify-center items-center mb-4">
-                <button class="flex absolute left-0 text-lime-300 items-center py-2 pr-2 rounded-lg hover:bg-neutral-800" onClick={handleBackButtonClick}>
+                <button class="flex absolute left-0 text-lime-400 items-center py-2 pr-2 rounded-lg hover:bg-neutral-800" onClick={handleBackButtonClick}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
                     </svg>
@@ -27,8 +27,8 @@ export default function Settings( {dialogRef, phases, setPhases} ) {
                 <div class="mb-2 px-2">
                     <h2 class="text-neutral-100 text-xl">Times (mins.)</h2>
                 </div>
-                <div class="bg-neutral-800 border rounded-lg border-neutral-600 px-2">
-                    <div class="flex flex-col">
+                <div class="bg-neutral-900 border rounded-lg border-neutral-600 px-2">
+                    <div class="flex flex-col divide-y">
                         {
                             phases.map((phase, index) => {
                                 return (

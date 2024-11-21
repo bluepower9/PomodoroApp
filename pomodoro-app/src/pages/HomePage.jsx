@@ -17,6 +17,7 @@ export default function HomePage() {
     const [phaseCount, setPhaseCount] = useState(0); //0,2,4,6 work, 1,3,5 short, 7 long according to phaseOrder
     const [numShortBreaks, setNumShortBreaks] = useState(3);
 
+    const [timeElapsed, setTimeElapsed] = useState(0);
     const [isRunning, setIsRunning] = useState(false);
 
     const dialogRef = useRef(null);
@@ -45,27 +46,36 @@ export default function HomePage() {
     return (
         <div class="flex flex-col justify-center bg-black font-sans min-h-screen">
             <NavBar />
-            <div class="flex w-full justify-center mt-16 pt-8">
-                <div class="flex w-full ml-5 ">
+            <Settings dialogRef={dialogRef} phases={phases} setPhases={setPhases} />
+            <div class="flex w-full justify-stretch mt-16 py-8 max-w-[90rem] mx-auto px-8">
+                <div class="flex flex-1 min-w-80">
                     <Notes />
                 </div>
-                <div class="flex flex-col justify-center items-center mx-24">
-                    <Timer
-                        phaseCycle={phaseCycle}
-                        phaseCount={phaseCount}
-                        phaseIndex={phaseIndex}
-                        incrementPhase={incrementPhase}
-                        isRunning={isRunning}
-                        setIsRunning={setIsRunning}
-                    />
-                    <ControlButtons isRunning={isRunning} setIsRunning={setIsRunning} dialogRef={dialogRef} />
-                    <Settings dialogRef={dialogRef} phases={phases} setPhases={setPhases} />
+                <div class="flex flex-1 grow mx-20">
+                    <div class="flex flex-col mx-auto">
+                        <Timer
+                            phaseCycle={phaseCycle}
+                            phaseCount={phaseCount}
+                            phaseIndex={phaseIndex}
+                            incrementPhase={incrementPhase}
+                            isRunning={isRunning}
+                            setIsRunning={setIsRunning}
+                            timeElapsed={timeElapsed}
+                            setTimeElapsed={setTimeElapsed}
+                        />
+                        <ControlButtons 
+                            isRunning={isRunning}
+                            setIsRunning={setIsRunning}
+                            dialogRef={dialogRef}
+                            setTimeElapsed={setTimeElapsed}
+                            incrementPhase={incrementPhase}
+                        />
+                    </div>
                 </div>
-                <div class="flex w-full mr-5 justify-end h-fit">
+                <div class="flex flex-1 justify-end h-fit min-w-80">
                     <div class="flex text-white bg-zinc-800 text-4xl px-2 pb-2 rounded-xl">
                         Filler
                     </div>
-                    
                 </div>
             </div>
         </div>

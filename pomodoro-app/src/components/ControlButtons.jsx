@@ -45,7 +45,7 @@ function SkipButton({onButtonClick}) {
     )
 }
 
-export default function ControlButtons({isRunning, setIsRunning, dialogRef}) {
+export default function ControlButtons({isRunning, setIsRunning, dialogRef, setTimeElapsed, incrementPhase}) {
     const handleStartButtonClick = () => setIsRunning((wasRunning) => !wasRunning);
 
     const handleSettingsButtonClick = () => {
@@ -59,7 +59,7 @@ export default function ControlButtons({isRunning, setIsRunning, dialogRef}) {
     }
 
     return (
-        <div class="flex justify-between mt-4 w-full">
+        <div class="flex justify-between mt-4">
             <StartButton onButtonClick={handleStartButtonClick} isRunning={isRunning} />
             <SettingsButton onButtonClick={handleSettingsButtonClick} />
             <SkipButton onButtonClick={handleSkipButtonClick} />

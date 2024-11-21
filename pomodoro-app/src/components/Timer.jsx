@@ -112,9 +112,7 @@ function TimerRings({phaseCycle, phaseCount, phaseIndex, timeLeft}) {
     )
 }
 
-export default function Timer({phaseCycle, phaseCount, phaseIndex, incrementPhase, isRunning, setIsRunning}) {
-    const [timeElapsed, setTimeElapsed] = useState(0);
-
+export default function Timer({phaseCycle, phaseCount, phaseIndex, incrementPhase, isRunning, setIsRunning, timeElapsed, setTimeElapsed}) {
     const durationInSeconds = phaseCycle[phaseIndex].duration * 60;
 
     const timeLeft = durationInSeconds - timeElapsed;
