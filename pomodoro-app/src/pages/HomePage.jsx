@@ -1,77 +1,36 @@
-import React, { useMemo, useState, useRef} from "react";
-import Timer from "../components/Timer";
+import { useState, useRef } from "react";
 import Settings from "../components/settings/Settings";
-import usePhase from '../hooks/timerHooks'
 import NavBar from "../components/NavBar/NavBar";
 import Notes from "../components/Notes/Notes";
-import ControlButtons from "../components/ControlButtons";
+import TimerPanel from "../components/TimerPanel";
 
 
 export default function HomePage() {
     /* STATE */
     const [phases, setPhases] = useState([
-        {name: "Work", duration: 25, color: "#FF005E"},
-        {name: "Short Break", duration: 5, color: "#6FFF00"},
-        {name: "Long Break", duration: 15, color: "#00EEFF"}
+        {name: "Work", duration: 25, color: "#FF005E", darkColor: "#4D001C"},
+        {name: "Short Break", duration: 5, color: "#6FFF00", darkColor: "#214B00"},
+        {name: "Long Break", duration: 15, color: "#00EEFF", darkColor: "#00474D"}
     ]);
-    const [phaseCount, setPhaseCount] = useState(0); //0,2,4,6 work, 1,3,5 short, 7 long according to phaseOrder
+    const [phaseCount, setPhaseCount] = useState(0);
     const [numShortBreaks, setNumShortBreaks] = useState(3);
 
-    const [timeElapsed, setTimeElapsed] = useState(0);
-    const [isRunning, setIsRunning] = useState(false);
-
-    const dialogRef = useRef(null);
-    
-    /* CALCULATED FROM STATE */
-    const phaseOrder = useMemo(() => {
-        const order = [];
-        for (let i = 0; i < numShortBreaks; i++) {
-            order.push(0, 1);
-        }
-        order.push(0, 2);
-        return order;
-    }, [numShortBreaks]);
-
-    const phaseIndex = phaseCount % phaseOrder.length;
-
-    const phaseCycle = useMemo(() => {
-        return phaseOrder.map((index) => {
-            return {...phases[index]};
-        });
-    });
-
-    /* FUNCTIONS */
-    const incrementPhase = () => setPhaseCount(currentPhaseCount => (currentPhaseCount + 1));
+    const settingsModalRef = useRef(null);
 
     return (
         <div class="flex flex-col justify-center bg-black font-sans min-h-screen">
-            <NavBar />
-            <Settings dialogRef={dialogRef} phases={phases} setPhases={setPhases} />
+            <Settings settingsModalRef={settingsModalRef} phases={phases} setPhases={setPhases} />
+            <NavBar settingsModalRef={settingsModalRef} />
             <div class="flex w-full justify-stretch mt-16 py-8 max-w-[90rem] mx-auto px-8">
                 <div class="flex flex-1 min-w-80">
                     <Notes />
                 </div>
-                <div class="flex flex-1 grow mx-20">
-                    <div class="flex flex-col mx-auto">
-                        <Timer
-                            phaseCycle={phaseCycle}
-                            phaseCount={phaseCount}
-                            phaseIndex={phaseIndex}
-                            incrementPhase={incrementPhase}
-                            isRunning={isRunning}
-                            setIsRunning={setIsRunning}
-                            timeElapsed={timeElapsed}
-                            setTimeElapsed={setTimeElapsed}
-                        />
-                        <ControlButtons 
-                            isRunning={isRunning}
-                            setIsRunning={setIsRunning}
-                            dialogRef={dialogRef}
-                            setTimeElapsed={setTimeElapsed}
-                            incrementPhase={incrementPhase}
-                        />
-                    </div>
-                </div>
+                <TimerPanel
+                    phases={phases}
+                    phaseCount={phaseCount}
+                    setPhaseCount={setPhaseCount}
+                    numShortBreaks={numShortBreaks}
+                />
                 <div class="flex flex-1 justify-end h-fit min-w-80">
                     <div class="flex text-white bg-zinc-800 text-4xl px-2 pb-2 rounded-xl">
                         Filler

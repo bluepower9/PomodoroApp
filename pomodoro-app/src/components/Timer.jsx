@@ -17,11 +17,13 @@ function TimerRings({phaseCycle, phaseCount, phaseIndex, timeLeft}) {
         return acc + curr.duration;
     }, 0);
 
-    const colorInner = phaseCycle[phaseIndex].color;
+    const colorInner = phase.color;
+    const darkColorInner = phase.darkColor;
 
     const radiusOuter = 180;
     const radiusInner = 160;
     const strokeWidth = 15;
+    const strokeOpacity = 0.3;
     const totalWidth = radiusOuter * 2 + strokeWidth;
     const center = totalWidth / 2;
     const circumferenceOuter = 2 * Math.PI * radiusOuter;
@@ -31,17 +33,28 @@ function TimerRings({phaseCycle, phaseCount, phaseIndex, timeLeft}) {
 
     return (
         <svg height={totalWidth} width={totalWidth}>
+            {phaseCycle.map((phase, i) => {
+                const arcLength = phase.duration / totalDuration * circumferenceOuter;
+                const color = phase.darkColor;
+                return (
+                    <circle
+                        fill='transparent'
+                        stroke={color}
+                        strokeWidth={strokeWidth}
+                        strokeDasharray={`${arcLength} ${circumferenceOuter}`}
+                        strokeDashoffset={-(circumferenceOuter - arcLength) + startRotations[i]}
+                        strokeLinecap='round'
+                        r={radiusOuter}
+                        cx={center}
+                        cy={center}
+                        style={{transition: 'stroke-dasharray 0.99s linear'}}
+                        transform={`rotate(-90 ${center} ${center})`}
+                    />
+                );
+            })}
             <circle
                 fill='transparent'
-                stroke='white'
-                strokeWidth={strokeWidth}
-                r={radiusOuter}
-                cx={center}
-                cy={center}
-            />
-            <circle
-                fill='transparent'
-                stroke='white'
+                stroke={darkColorInner}
                 strokeWidth={strokeWidth}
                 r={radiusInner}
                 cx={center}

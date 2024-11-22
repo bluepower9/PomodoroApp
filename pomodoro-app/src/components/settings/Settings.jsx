@@ -1,7 +1,7 @@
 import { useState } from "react";
 import TimeSetting from "./TimeSetting";
 
-export default function Settings( {dialogRef, phases, setPhases} ) {
+export default function Settings( {settingsModalRef, phases, setPhases} ) {
     const handleTimeChange = (e, index) => {
         let nextPhases = phases.map((phase) => ({...phase}));
         nextPhases[index].duration=Number(e.target.value);
@@ -9,11 +9,11 @@ export default function Settings( {dialogRef, phases, setPhases} ) {
     }
 
     const handleBackButtonClick = () => {
-        dialogRef.current.close();
+        settingsModalRef.current.close();
     }
 
     return (
-        <dialog ref={dialogRef} class="bg-neutral-900 w-1/3 min-w-96 rounded-xl px-8 py-4">
+        <dialog ref={settingsModalRef} class="bg-neutral-900 w-1/3 min-w-96 rounded-xl px-8 py-4 border border-neutral-600">
             <div class="relative flex justify-center items-center mb-4">
                 <button class="flex absolute left-0 text-lime-400 items-center py-2 pr-2 rounded-lg hover:bg-neutral-800" onClick={handleBackButtonClick}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
