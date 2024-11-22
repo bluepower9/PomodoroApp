@@ -2,11 +2,12 @@ import React, { useState } from "react";
 
 function MinimizedNote(props){
     return (
-        <div class="flex flex-col w-full px-2 pt-2 hover:cursor-pointer hover:bg-gray-300" onClick={props.expand}>
+        <div class="flex flex-col w-full px-2 pt-2 hover:cursor-pointer hover:bg-zinc-500" onClick={props.expand}>
             <div class="flex">
-                <label class="w-24 text-sm font-medium border-white border-r-[2px] pr-2 hover:cursor-pointer">{props.date}</label>
-                <div class="w-full pl-2">
-                    <label class="text-base font-bold">{props.title}</label>
+                {/* <label class="w-24 text-sm font-medium border-white border-r-[2px] pr-2 hover:cursor-pointer">{props.date}</label> */}
+                <div class="flex flex-col w-full pl-2">
+                    <label class="flex self-start text-xs font-bold hover:cursor-pointer">{props.date}</label> 
+                    <label class="text-base font-bold hover:cursor-pointer">{props.title}</label>
                     <p class="w-full line-clamp-1 text-sm">{props.note}</p>
                 </div>
             </div>
