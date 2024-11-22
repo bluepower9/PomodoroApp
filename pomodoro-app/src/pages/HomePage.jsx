@@ -21,7 +21,7 @@ export default function HomePage() {
         <div class="flex flex-col justify-center bg-black font-sans min-h-screen">
             <Settings settingsModalRef={settingsModalRef} phases={phases} setPhases={setPhases} />
             <NavBar settingsModalRef={settingsModalRef} />
-            <div class="flex w-full justify-stretch mt-16 py-8 max-w-[90rem] mx-auto px-8">
+            <div class="flex w-full justify-stretch mt-16 py-8 max-w-[90vw] mx-auto px-8">
                 <div class="flex flex-1 min-w-80">
                     <Notes />
                 </div>
