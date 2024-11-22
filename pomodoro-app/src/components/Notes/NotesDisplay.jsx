@@ -4,8 +4,11 @@ function MinimizedNote(props){
     return (
         <div class="flex flex-col w-full px-2 pt-2 hover:cursor-pointer hover:bg-gray-300" onClick={props.expand}>
             <div class="flex">
-                <label class="w-24 font-medium border-white border-r-[2px] pr-2 hover:cursor-pointer">{props.date}</label>
-                <p class="w-full line-clamp-1 pl-2">{props.note}</p>
+                <label class="w-24 text-sm font-medium border-white border-r-[2px] pr-2 hover:cursor-pointer">{props.date}</label>
+                <div class="w-full pl-2">
+                    <label class="text-base font-bold">{props.title}</label>
+                    <p class="w-full line-clamp-1 text-sm">{props.note}</p>
+                </div>
             </div>
             <hr class="border-[1.5px] rounded-full mt-1" />
         </div>
@@ -41,7 +44,7 @@ function generateNotes(expandNote) {
 
         console.log(date);
 
-        notes.push(<MinimizedNote date={`${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`} expand={()=>expandNote(id)} note={n['note']}/>);
+        notes.push(<MinimizedNote date={`${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`} expand={()=>expandNote(id)} note={n['note']} title={n['title']}/>);
         
     }
 
