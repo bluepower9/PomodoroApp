@@ -135,7 +135,7 @@ function getExpandedNote(id, backButtonClick){
                 </div>
             </div>
             <div class="w-full h-full px-9 overflow-y-auto">
-                <p class="w-full h-full">
+                <p class="w-full h-full whitespace-pre-wrap">
                     <br></br>
                     <br></br>
                     {note['note']}
