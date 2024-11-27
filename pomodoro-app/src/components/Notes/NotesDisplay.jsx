@@ -139,7 +139,7 @@ function editNotesOptions(noteId, setWidget){
     const exitEdit = () =>{
         resetEdit();
         setWidget(1);
-        bodyEl.disabled = true;
+        bodyEl.contentEditable = false;
     }
 
     const saveEdit = () => {
