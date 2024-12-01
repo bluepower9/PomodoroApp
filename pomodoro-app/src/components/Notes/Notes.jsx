@@ -16,20 +16,24 @@ export default function Notes(props){
     }
 
     return (
-        <div class="flex flex-col h-fit w-full">
-            <div class={`flex bg-zinc-800 h-fit text-3xl px-3 pb-2 text-white hover:cursor-pointer ${expanded?"w-full rounded-t-xl": "w-fit rounded-xl"}`} onClick={()=>setexpanded(!expanded)}>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="flex bi bi-pencil-square w-6 pt-2" viewBox="0 0 16 16">
-                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-                </svg>
-                <h1 class="ml-3 mr-6 pt-1">Notes</h1>
-                <svg class="bi bi-arrows-angle-expand ml-auto w-4 pt-2" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
-                    {expIcon()}
-                </svg>
-            </div>
-            <div class="h-[50vh]">
-                <NotesDisplay show={expanded}/>
-            </div>
+        <div class={`flex flex-col h-[50vh] w-full`}>
+            {/* <div class={`h-full w-full bg-yellow-200 ${expanded?'animate-note-expand':'animate-note-shrink'}`}> */}
+            {/* ${expanded?"w-full rounded-t-xl": "w-48 rounded-xl"} */}
+            <div class={`transition-all duration-1000 ease-in-out ${expanded?'h-full w-full': 'w-48 h-16'}`}>
+                <div class={`flex bg-zinc-800 min-w-48 h-fit text-3xl px-3 pb-2 text-white hover:cursor-pointer ${expanded?"rounded-t-xl": "rounded-xl"}`} onClick={()=>setexpanded(!expanded)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="flex bi bi-pencil-square w-6 pt-2" viewBox="0 0 16 16">
+                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                    </svg>
+                    <h1 class="ml-3 mr-6 pt-1">Notes</h1>
+                    <svg class="bi bi-arrows-angle-expand ml-auto w-4 pt-2" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+                        {expIcon()}
+                    </svg>
+                </div>
+                <div class="h-full w-full">
+                    <NotesDisplay show={expanded}/>
+                </div>
+                </div>
         </div>
     );
 }
