@@ -390,18 +390,18 @@ export default function NotesDisplay(props){
         }
     }
 
-    if(props.show){
+    // if(props.show){
         return (
-            <div class="relative flex flex-col h-full w-full bg-zinc-400 rounded-b-xl max-h-full">
+            <div class={`relative h-full w-full flex flex-col bg-zinc-400 rounded-b-xl transition duration-700 ${props.show?'opacity-1': 'opacity-0'}`}>
                 {getView()}
             </div>
         )
-    }
-    else{
-        if(expandNote !== null){
-            setExpandNote(null);
-        }
+    // }
+    // else{
+    //     if(expandNote !== null){
+    //         setExpandNote(null);
+    //     }
         
-        return "";
-    }
+    //     return "";
+    // }
 }
