@@ -114,9 +114,11 @@ function NewNote(props){
 
 
 function OptionsWidget({buttons}){
+    console.log('buttons: ', buttons.length, 'value: ', buttons, )
+    const height = buttons.length*12;
     return (
-        <div class="absolute flex h-fit mt-16 mr-2 right-0 top-0 bottom-0">
-            <div class="flex flex-col w-12 h-full rounded-2xl px-2 py-3 bg-zinc-600 space-y-4">
+        <div class={`h-full absolute flex mt-16 mr-2 right-0 top-0 bottom-0 overflow-hidden transition-all`}>
+            <div class={`transition-all flex flex-col w-12 rounded-2xl px-2 py-3 bg-zinc-600 space-y-4 ${`h-${height}`}`}>
                 {buttons}
             </div>
         </div>
@@ -234,16 +236,16 @@ function RenderOptionsWidget({noteId, widget, changeWidget, showConfirmation}){
     const editWidget = editNotesOptions(noteId, changeWidget);
 
     console.log('widget view: ', widget);
+    let w = "";
 
     if(widget === 1) {
-        return viewWidget;
+        w = viewWidget;
     }
     else if(widget === 2){
-        return editWidget;
+        w = editWidget;
     }
-    else{
-        return "";
-    }
+    
+    return w;
 }
 
 
@@ -350,7 +352,7 @@ export default function NotesDisplay(props){
 
     const listNotesView = (
         <div class="relative w-full h-full">
-            <button class="absolute bottom-0 right-0 rounded-full p-2 mb-3 mr-5 bg-gray-300 opacity-70 hover:opacity-90" onClick={()=>setExpandNote(0)}>
+            <button class="absolute bottom-0 right-0 rounded-full p-2 mb-3 mr-5 bg-gray-300 opacity-70 transition hover:opacity-90 hover:scale-105" onClick={()=>setExpandNote(0)}>
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-file-earmark-plus-fill w-10" viewBox="0 0 16 16">
                 <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1M8.5 7v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 1 0"/>
             </svg>
